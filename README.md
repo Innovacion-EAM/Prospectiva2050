@@ -10,15 +10,15 @@ Plataforma de presentación, consulta, divulgación y seguimiento del proceso pr
 
 | Servicio | Tecnología | Puerto | Descripción |
 | --- | --- | --- | --- |
-| `api` | NestJS + Prisma + PostgreSQL | 3000 | API REST (contenido + autenticación JWT) |
-| `web` | Next.js (App Router) | 3001 | Sitio público (SSG/ISR con datos de la API) |
+| `api` | NestJS + Prisma + PostgreSQL | 3000 | API REST (contenido + formularios + autenticación JWT) |
+| `web` | TanStack Start (React 19) | 3001 → 8080 | Sitio público (SSR con datos de la API) |
 | `admin` | React + Vite + TypeScript | 3002 | Backoffice (login JWT, gestión de contenido) |
 | `db` | PostgreSQL 16 | 5432 | Base de datos |
 
 ```
 website/
-├── api/           # NestJS 11 + Prisma + PostgreSQL
-├── web/           # Next.js 15 — sitio público
+├── api/           # NestJS + Prisma + PostgreSQL
+├── web/           # TanStack Start + React 19 — sitio público
 ├── admin/         # React + Vite + TS — backoffice
 ├── docker-compose.yml
 ├── .env.example
@@ -31,8 +31,13 @@ PostgreSQL. En el **primer despliegue** se usa **Supabase** (PostgreSQL gestiona
 `postgres://`). Al migrar a una instancia propia (AWS + Traefik), basta con apuntar `DATABASE_URL`
 al container de Postgres. No hay vendor-lock.
 
-Schema: `Noticia`, `Documento`, `Convocatoria`, `Usuario` (roles `ADMIN`/`EDITOR`).
-Seed (idempotente): 12 noticias reales + usuario administrador.
+Schema: `Noticia`, `Documento`, `Convocatoria`, `Usuario` (roles `ADMIN`/`EDITOR`),
+`MensajeContacto`, `Sugerencia`, `InscripcionTaller`, `SuscripcionBoletin`.
+Seed (idempotente): 12 noticias reales, documentos, convocatorias y usuario administrador.
+
+El front (`web`) **no guarda contenido**: lo consulta a la API (`PUBLIC_API_URL` desde el servidor)
+y los formularios escriben en ella (`VITE_API_URL` desde el navegador). La fuente de verdad única
+es la base de datos.
 
 ## Puesta en marcha (local)
 
@@ -62,8 +67,8 @@ docker compose up -d --build
 cd api && npm install && npx prisma generate
 npm run start:dev
 
-# Web
-cd web && npm install && npm run dev
+# Web (SSR; PUBLIC_API_URL=http://localhost:3000 apunta a la API local)
+cd web && npm install && npm run dev   # http://localhost:8080
 
 # Admin
 cd admin && npm install && npm run dev
@@ -80,6 +85,11 @@ Prefijo global: `/api` · Formato JSON · CORS configurable.
 | GET | `/api/noticias/:slug` | Detalle de noticia | — |
 | GET | `/api/documentos?tipo=&delimitacion=&q=&page=&perPage=` | Repositorio documental | — |
 | GET | `/api/convocatorias` | Convocatorias activas | — |
+| POST | `/api/forms/contacto` | Guarda mensaje de contacto | — |
+| POST | `/api/forms/sugerencias` | Guarda pregunta/recomendación ciudadana | — |
+| POST | `/api/forms/inscripciones` | Guarda inscripción a taller | — |
+| POST | `/api/forms/boletin` | Alta de suscripción al boletín (upsert por correo) | — |
+| GET | `/api/forms` | Todos los formularios recibidos | Bearer (ADMIN/EDITOR) |
 | POST | `/api/auth/login` | Login JWT → `{ accessToken, user }` | — |
 | GET | `/api/auth/perfil` | Usuario autenticado | Bearer |
 
@@ -102,10 +112,12 @@ Prefijo global: `/api` · Formato JSON · CORS configurable.
 
 ### 3) Vercel (Web y Admin)
 
-Son dos proyectos independientes en el mismo repo GItHub:
+Son dos proyectos independientes en el mismo repo GitHub:
 
-- **Proyecto web** → raíz `web/`, framework preset **Next.js**.
-  - Env var de build: `PUBLIC_API_URL` (URL pública de la API en Render, ej. `https://tu-api.onrender.com`).
+- **Proyecto web** → raíz `web/`, framework preset **Vite/TanStack Start** (build `vite build` con
+  preset nitro `vercel` incluido en `vite.config.ts`).
+  - Env var de build: `VITE_API_URL` (URL pública de la API en Render, para los formularios desde el navegador).
+  - Env var runtime: `PUBLIC_API_URL` (misma URL de la API, para las consultas SSR de noticias/documentos/convocatorias).
 - **Proyecto admin** → raíz `admin/`, framework preset **Vite**.
   - Env var de build: `VITE_API_URL` (misma URL de la API).
 
@@ -117,8 +129,8 @@ estrategia de despliegue; el código es el mismo.
 
 ## Fases
 
-- **Fase 1 (actual):** base del producto — servicios dockerizados, sitio público, API con contenidos
-  y autenticación, backoffice con login y listado de contenido.
+- **Fase 1 (actual):** base del producto — servicios dockerizados, sitio público (TanStack Start)
+  conectado a la API, contenidos y formularios persistidos, backoffice con login y listado de contenido.
 - **Fase 2:** backoffice completo — CRUD de noticias/documentos/convocatorias, gestión de
   formularios (contacto/propuestas), usuarios y roles, subida de archivos.
 - **Fase 3:** instancia propia, Traefik, SSL, rate limiting, analítica.

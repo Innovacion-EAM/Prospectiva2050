@@ -62,3 +62,44 @@ model Usuario {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+model MensajeContacto {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String
+  asunto    String?
+  mensaje   String
+  leido     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sugerencia {
+  id         Int      @id @default(autoincrement())
+  nombre     String
+  email      String?
+  sugerencia String
+  leido      Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model InscripcionTaller {
+  id        Int      @id @default(autoincrement())
+  taller    String
+  nombre    String
+  email     String
+  telefono  String?
+  adicional String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SuscripcionBoletin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  nombre    String?
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

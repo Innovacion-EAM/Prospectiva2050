@@ -5,7 +5,11 @@ node_modules/
 dist/
 build/
 .next/
-out/
+.out/
+.output/
+.nitro/
+.vercel/
+.tanstack/
 coverage/
 
 # Entorno

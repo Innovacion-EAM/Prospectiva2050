@@ -28,7 +28,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-hq2050}:${POSTGRES_PASSWORD:-hq2050_secret}@db:5432/${POSTGRES_DB:-hq2050}
       JWT_SECRET: ${JWT_SECRET:-secret_local_dev_no_usar_en_produccion}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3001,http://localhost:3002}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3001,http://localhost:3002,http://localhost:8080}
       PORT: 3000
     ports:
       - "3000:3000"
@@ -39,15 +39,13 @@ services:
   web:
     build:
       context: ./web
-      args:
-        PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3000}
     container_name: hq2050-web
     restart: unless-stopped
     environment:
-      PORT: 3001
       PUBLIC_API_URL: http://api:3000
+      VITE_API_URL: http://localhost:3000
     ports:
-      - "3001:3001"
+      - "3001:8080"
     depends_on:
       - api
 

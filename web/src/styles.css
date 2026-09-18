@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b3336;
+  --color-ink-deep: #062022;
+  --color-ink-mid: #0e3c40;
+  --color-ink-soft: #16484c;
+  --color-lime: #c6e85c;
+  --color-lime-deep: #b5dc4a;
+  --color-lime-hot: #8fcb32;
+  --color-lime-fg: #1c3334;
+  --color-paper: #ffffff;
+  --color-fog: #f3f6f4;
+  --color-stone: #e6eae8;
+  --color-mist: #cfd6d4;
+  --color-muted: #5c7072;
+  --color-body: #3a4e50;
+  --color-footer: #161817;
+  --color-convoca: #5b2d8a;
+
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+
+  --text-hero: clamp(1.85rem, 1.1rem + 3.2vw, 3.35rem);
+  --text-display: clamp(1.65rem, 1.1rem + 1.8vw, 2.4rem);
+  --text-section: clamp(1.45rem, 1rem + 1.4vw, 2.05rem);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2.25rem;
+  --radius-3xl: 2.75rem;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 18px 50px -18px rgb(11 51 54 / 0.22);
+  --shadow-float: 0 24px 60px -20px rgb(11 51 54 / 0.28);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply overflow-x-hidden bg-paper font-sans text-body;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@utility hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+@utility tap-scale {
+  transition: transform 150ms var(--ease-out);
+}
+@utility tap-scale {
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

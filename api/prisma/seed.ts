@@ -42,6 +42,47 @@ async function main() {
     console.log(`Seeded ${data.noticias.length} noticias`);
   }
 
+  const docsPath = path.join(__dirname, 'seed-data', 'documentos.json');
+  const docsData = JSON.parse(fs.readFileSync(docsPath, 'utf-8'));
+
+  if (Array.isArray(docsData.documentos)) {
+    for (const d of docsData.documentos) {
+      const existing = await prisma.documento.findFirst({ where: { titulo: d.titulo } });
+      const data = {
+        autor: d.autor,
+        fecha: new Date(d.fecha),
+        tipo: d.tipo,
+        delimitacion: d.delimitacion,
+        formato: d.formato,
+        link: d.link ?? null,
+      };
+      if (existing) {
+        await prisma.documento.update({ where: { id: existing.id }, data });
+      } else {
+        await prisma.documento.create({ data: { titulo: d.titulo, ...data } });
+      }
+    }
+    console.log(`Seeded ${docsData.documentos.length} documentos`);
+  }
+
+  if (Array.isArray(docsData.convocatorias)) {
+    for (const c of docsData.convocatorias) {
+      const existing = await prisma.convocatoria.findFirst({ where: { titulo: c.titulo } });
+      const data = {
+        fecha: c.fecha ? new Date(c.fecha) : null,
+        descripcion: c.descripcion ?? null,
+        enlace: c.enlace ?? null,
+        activa: c.activa ?? true,
+      };
+      if (existing) {
+        await prisma.convocatoria.update({ where: { id: existing.id }, data });
+      } else {
+        await prisma.convocatoria.create({ data: { titulo: c.titulo, ...data } });
+      }
+    }
+    console.log(`Seeded ${docsData.convocatorias.length} convocatorias`);
+  }
+
   const passwordHash = bcrypt.hashSync('horizonte2050', 10);
   await prisma.usuario.upsert({
     where: { email: 'admin@horizontequindio2050.com' },
