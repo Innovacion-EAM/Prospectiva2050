@@ -1,0 +1,14 @@
+[
+  { "nombre": "Salento", "x": 205, "y": 45, "dx": -34, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Taller de construcción participativa y cartografía social." },
+  { "nombre": "Filandia", "x": 150, "y": 80, "dx": 14, "dy": -16, "estado": "realizado", "personas": 72, "nota": "Taller municipal con la comunidad." },
+  { "nombre": "Circasia", "x": 250, "y": 105, "dx": 14, "dy": -16, "estado": "realizado", "personas": 42, "nota": "Taller de construcción participativa." },
+  { "nombre": "Quimbaya", "x": 105, "y": 150, "dx": 14, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Taller municipal de cartografía social." },
+  { "nombre": "Montenegro", "x": 185, "y": 165, "dx": 14, "dy": -16, "estado": "realizado", "personas": 40, "nota": "Taller en la Casa de la Cultura." },
+  { "nombre": "La Tebaida", "x": 120, "y": 215, "dx": -40, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Taller municipal." },
+  { "nombre": "Armenia", "x": 235, "y": 215, "dx": 14, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Talleres por dimensión y encuentros con el gabinete municipal." },
+  { "nombre": "Calarcá", "x": 305, "y": 225, "dx": 14, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Taller municipal de cartografía social." },
+  { "nombre": "Córdoba", "x": 255, "y": 285, "dx": 14, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Taller municipal." },
+  { "nombre": "Génova", "x": 175, "y": 345, "dx": 14, "dy": -16, "estado": "pendiente", "personas": 0, "nota": "Espacio municipal en programación." },
+  { "nombre": "Pijao", "x": 225, "y": 400, "dx": 14, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Taller municipal con subregión del sur." },
+  { "nombre": "Buenavista", "x": 155, "y": 445, "dx": 14, "dy": -16, "estado": "realizado", "personas": 0, "nota": "Taller municipal." }
+]
