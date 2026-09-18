@@ -8,69 +8,74 @@ import { Button } from "./ui/button";
 
 export function HomeHero() {
   return (
-    <section className="relative isolate overflow-hidden bg-ink text-paper pb-14 sm:pb-20">
+    <section className="relative isolate overflow-hidden bg-ink text-paper pb-16 sm:pb-20 lg:pb-24">
       {/* Background aerial city image */}
       <img
         src="/images/hero-city.jpg"
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-50 grayscale"
+        className="absolute inset-0 h-full w-full object-cover opacity-45 grayscale"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/90 via-ink/80 to-ink lg:bg-gradient-to-r lg:from-ink lg:via-ink/85 lg:to-ink/40" />
 
-      <div className="relative mx-auto grid min-h-[30rem] max-w-6xl items-center gap-8 px-4 py-10 sm:px-6 lg:min-h-[34rem] lg:grid-cols-[0.88fr_1.12fr] lg:py-14">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[0.88fr_1.12fr] lg:py-16">
         {/* Left hero headline */}
-        <div className="relative z-10 max-w-xl">
-          <h1 className="font-display text-hero leading-[1.12] font-extrabold tracking-tight text-paper">
-            {SITE.headline.map((line) => (
-              <span key={line} className="block">
+        <div className="relative z-10 max-w-xl text-left">
+          <h1 className="font-display text-hero leading-[1.1] font-extrabold tracking-tight text-paper">
+            {SITE.headline.map((line, index) => (
+              <span
+                key={line}
+                className={cn(
+                  "block",
+                  index === SITE.headline.length - 1 ? "text-lime" : ""
+                )}
+              >
                 {line}
               </span>
             ))}
           </h1>
-          <Link
-            to="/proyecto"
-            className="mt-8 inline-flex items-center gap-1 rounded-pill bg-lime px-6 py-3 font-display text-sm font-semibold text-lime-fg no-underline tap-scale hover:bg-lime-deep shadow-md"
-          >
-            Explorar más {">"}{">"}
-          </Link>
+          <div className="mt-8 flex justify-start">
+            <Link
+              to="/proyecto"
+              className="inline-flex items-center gap-1.5 rounded-pill bg-lime px-6 py-3.5 font-display text-sm font-bold text-lime-fg no-underline tap-scale hover:bg-lime-deep shadow-lg transition-transform"
+            >
+              Explorar más {">"}{">"}
+            </Link>
+          </div>
         </div>
 
-        {/* Right column: People image seamlessly fused into background with NO rectangular border/margins */}
-        <div className="relative mx-auto hidden w-full max-w-xl sm:block lg:max-w-none">
-          {/* Green Ring behind people */}
-          <div
-            aria-hidden
-            className="absolute top-[48%] left-[50%] size-[min(70vw,31rem)] -translate-x-1/2 -translate-y-1/2 rounded-full border-[28px] border-lime/80 pointer-events-none"
-          />
-
-          {/* Radial & Elliptical Masked Image Container with screen blending - Edge square box completely dissolved */}
-          <div
-            className="relative z-10 mx-auto w-full overflow-hidden"
-            style={{
-              WebkitMaskImage: "radial-gradient(ellipse 68% 68% at 50% 50%, black 20%, transparent 80%)",
-              maskImage: "radial-gradient(ellipse 68% 68% at 50% 50%, black 20%, transparent 80%)",
-            }}
-          >
-            <img
-              src="/images/hero-people.jpg"
-              alt="Talento local del Quindío: jóvenes profesionales del territorio"
-              className="w-full h-[25rem] object-cover object-[center_20%]"
-              style={{
-                mixBlendMode: "screen",
-                filter: "brightness(1.15) contrast(1.1)",
-              }}
+        {/* Right column: People image and green circle graphic (Fully Responsive - visible on Mobile & Desktop) */}
+        <div className="relative mx-auto w-full max-w-md sm:max-w-lg lg:max-w-none">
+          <div className="relative flex items-center justify-center py-4">
+            {/* Green Ring Graphic behind people */}
+            <div
+              aria-hidden
+              className="absolute top-[48%] left-[50%] size-[16rem] sm:size-[22rem] lg:size-[27rem] -translate-x-1/2 -translate-y-1/2 rounded-full border-[20px] sm:border-[28px] lg:border-[34px] border-lime shadow-[0_0_50px_rgba(143,203,50,0.35)] pointer-events-none"
             />
-          </div>
 
-          {/* Suggestion box overlapping bottom-right near people */}
-          <div className="absolute -bottom-6 right-2 z-30 w-64 lg:w-72">
-            <SuggestForm rotated inputId="sugerencia-hero" />
+            {/* Opaque crisp image container */}
+            <div
+              className="relative z-10 mx-auto w-full overflow-hidden"
+              style={{
+                WebkitMaskImage: "radial-gradient(ellipse 75% 75% at 50% 50%, black 50%, transparent 95%)",
+                maskImage: "radial-gradient(ellipse 75% 75% at 50% 50%, black 50%, transparent 95%)",
+              }}
+            >
+              <img
+                src="/images/hero-people.jpg"
+                alt="Talento local del Quindío: jóvenes profesionales del territorio"
+                className="w-full h-[18rem] sm:h-[22rem] lg:h-[26rem] object-cover object-[center_20%]"
+                style={{
+                  filter: "brightness(1.08) contrast(1.05)",
+                }}
+              />
+            </div>
+
+            {/* Suggestion box floating over bottom-right of hero image */}
+            <div className="absolute -bottom-6 right-0 sm:right-2 z-30 w-64 sm:w-72">
+              <SuggestForm rotated inputId="sugerencia-hero" />
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="relative z-20 px-4 pb-4 sm:hidden">
-        <SuggestForm rotated={false} inputId="sugerencia-movil" />
       </div>
     </section>
   );
@@ -109,21 +114,21 @@ export function SuggestForm({
     <form
       onSubmit={send}
       className={cn(
-        "rounded-2xl bg-lime p-3.5 text-lime-fg shadow-[var(--shadow-float)] border border-paper/20 sm:p-4",
-        rotated && "origin-bottom-right rotate-3 hover:rotate-0 transition-transform duration-200",
+        "rounded-2xl bg-lime p-3.5 text-lime-fg shadow-[var(--shadow-float)] border border-paper/20 sm:p-4 backdrop-blur-xs",
+        rotated && "origin-bottom-right rotate-2 hover:rotate-0 transition-transform duration-200",
       )}
     >
       <p className="font-display text-xs leading-snug font-extrabold sm:text-sm">
-        ¿Tienes alguna pregunta o quieres darnos alguna recomendación?
+        ¿Tienes alguna Pregunta O quieres darnos Alguna recomendación?
       </p>
       <label htmlFor={inputId} className="sr-only">
-        Escribe tu idea
+        Escribe tu respuesta
       </label>
       <input
         id={inputId}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Escribe tu idea"
+        placeholder="escribe tu res..."
         className="mt-2.5 h-8.5 w-full rounded-pill bg-paper px-3 text-xs text-ink outline-none placeholder:text-muted focus:ring-2 focus:ring-ink/20"
       />
       <Button type="submit" variant="hot" size="sm" className="mt-2.5 w-full text-xs py-1.5 font-bold" disabled={sending}>

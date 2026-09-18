@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Horizonte Quindío",
   tagline: "Prospectiva territorial hacia 2050",
-  headline: ["Proyectamos el futuro", "De la región con", "El esfuerzo del talento local."],
+  headline: ["Proyectamos el futuro", "De la región uniendo", "El esfuerzo del", "talento local."],
   email: "contacto@horizontequindio.com",
   phone: "+57 310 565 6351",
   phoneHref: "tel:+573105656351",
@@ -15,6 +15,7 @@ export const SITE = {
 };
 
 export const NAV = [
+  { label: "Inicio", href: "/", match: "/" },
   { label: "El proyecto", href: "/proyecto", match: "/proyecto" },
   { label: "Dimensiones", href: "/dimensiones", match: "/dimensiones" },
   { label: "Documentos", href: "/documentos", match: "/documentos" },

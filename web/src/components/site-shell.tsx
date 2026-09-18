@@ -63,16 +63,16 @@ function Header({
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
           {NAV.map((item) => {
             const active =
-              pathname === item.href || pathname.startsWith(`${item.match}/`);
-            const isHomeProject = item.href === "/proyecto" && pathname === "/";
-            const on = active || isHomeProject;
+              item.href === "/"
+                ? pathname === "/"
+                : pathname === item.href || pathname.startsWith(`${item.match}/`);
             return (
               <Link
                 key={item.href}
                 to={item.href}
                 className={cn(
                   "rounded-pill px-4 py-2 font-display text-[0.8rem] font-semibold tracking-wide no-underline transition-colors duration-200",
-                  on ? "bg-lime text-lime-fg" : "text-paper hover:bg-paper/10",
+                  active ? "bg-lime text-lime-fg" : "text-paper hover:bg-paper/10",
                 )}
               >
                 {item.label}
@@ -127,16 +127,16 @@ function MobileNav({
       <ul className="flex flex-col gap-1">
         {NAV.map((item) => {
           const active =
-            pathname === item.href || pathname.startsWith(item.match + "/");
-          const isHomeProject = item.href === "/proyecto" && pathname === "/";
-          const on = active || isHomeProject;
+            item.href === "/"
+              ? pathname === "/"
+              : pathname === item.href || pathname.startsWith(`${item.match}/`);
           return (
             <li key={item.href}>
               <Link
                 to={item.href}
                 className={cn(
                   "block rounded-xl px-4 py-3 font-display text-sm font-semibold no-underline",
-                  on ? "bg-lime text-lime-fg" : "text-paper hover:bg-paper/10",
+                  active ? "bg-lime text-lime-fg" : "text-paper hover:bg-paper/10",
                 )}
               >
                 {item.label}
